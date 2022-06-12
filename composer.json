@@ -1,0 +1,20 @@
+{
+    "name": "kaminski/shop",
+    "description": "Carnival Costume Store",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kaminski\\Shop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mateusz Kaminski",
+            "email": "8077@htl.rennweg.at"
+        }
+    ],
+    "require": {
+        "doctrine/dbal": "^3.3",
+        "twig/twig": "^3.3"
+    }
+}

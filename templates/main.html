@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Carvinal Costume Store - Lend the costume you need, whenever you need!">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicons/favicon-16x16.png">
+    <link rel="manifest" href="./favicons/site.webmanifest">
+    <link rel="mask-icon" href="./favicons/safari-pinned-tab.svg" color="#00ffd0">
+    <link rel="shortcut icon" href="./favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="./favicons/browserconfig.xml">
+    <meta name="theme-color" content="#00ffd0">
+
+    <title>Carnival Store</title>
+    <link rel="stylesheet" href="style/style.scss" />
+</head>
+<body>
+
+<nav>
+    <a href="./" class="btn">Home</a>
+    <a href="./admin.php" class="btn">Admin</a>
+</nav>
+
+<div class="content">
+
+
+{% for product in products %}
+
+    <div class="card">
+        <div class="imgBox">
+            <img src="{{product.product_image}}" alt="product image" class="product">
+        </div>
+        <div class="contentBox">
+            <h3>{{product.product_name}}</h3>
+            <h2 class="price">{{product.product_price}} €</h2>
+            <button onclick="addToCart('{{product.product_price}}', '{{product.product_name}}')" class="buy">Add to Cart</button>
+        </div>
+    </div>
+
+{% endfor %}
+
+
+</div>
+<hr style="border-color: #00FFD0FF">
+<div class="center">
+    <h2>Cart Summary</h2>
+</div>
+<br>
+<div class="center">
+
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        <tr id="currentTr">
+            <td id="product_name"></td>
+            <td id="product_quant"></td>
+            <td id="product_price"></td>
+            <td><strong id="product_total"></strong></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    var product_quantity = {};
+    var total_sum = parseInt(0);
+
+    function addToCart(price, name) {
+
+        if (product_quantity[name] == null) {
+            product_quantity[name] = parseInt(0)
+        }
+        product_quantity[name]++
+
+
+        if (product_quantity[name] === 1) {
+
+            var newTr = document.createElement("tr");
+            var newTd_name = document.createElement("td");
+            newTd_name.setAttribute("id", name + "_name");
+            var newTd_quant = document.createElement("td");
+            newTd_quant.setAttribute("id", name + "_quant");
+            var newTd_price = document.createElement("td");
+            newTd_price.setAttribute("id", name + "_price");
+            var newTd_total = document.createElement("td");
+            newTd_total.setAttribute("id", name + "_total");
+
+            newTr.appendChild(newTd_name);
+            newTr.appendChild(newTd_quant);
+            newTr.appendChild(newTd_price);
+            newTr.appendChild(newTd_total);
+
+            newTd_name.innerHTML = name;
+            newTd_quant.innerHTML = "x" + product_quantity[name];
+            newTd_price.innerHTML = price + "€";
+            newTd_total.innerHTML = parseInt(price) * parseInt(product_quantity[name]) + "€";
+
+
+            var currentTr = document.getElementById("currentTr");
+            currentTr.parentNode.insertBefore(newTr, currentTr);
+
+        } else {
+            document.getElementById(name + "_quant").innerHTML = "x" + product_quantity[name];
+            document.getElementById(name + "_total").innerHTML = parseInt(price) * parseInt(product_quantity[name]) + "€";
+        }
+
+        total_sum += parseInt(price)
+
+        document.getElementById("product_total").innerHTML = total_sum  + "€";
+
+    }
+</script>
+
+</body>
+</html>
